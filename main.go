@@ -63,13 +63,10 @@ type Post struct {
 
 
 func main() {
-    // dbUser := os.Getenv("DB_USER")
-    // dbPass := os.Getenv("DB_PASSWORD")
-    // dbName := os.Getenv("DB_NAME")
-    dbUser := "uttc"
-    dbPass := "uttc"
-    dbName := "hackathon"
-    dbSocketDir := "/cloudsql/mindful-primer-399308:us-central1:uttc"
+    dbUser := os.Getenv("DB_USER")
+    dbPass := os.Getenv("DB_PASSWORD")
+    dbName := os.Getenv("DB_NAME")
+	dbSocketDir := os.Getenv("DB_HOST")
     // instanceConnectionName := os.Getenv("DB_HOST")  
     dsn := fmt.Sprintf("%s:%s@unix(%s)/%s", dbUser, dbPass, dbSocketDir, dbName)
 
