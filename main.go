@@ -68,7 +68,7 @@ func main() {
     dbName := os.Getenv("DB_NAME")
 	dbSocketDir := os.Getenv("DB_HOST")
     // instanceConnectionName := os.Getenv("DB_HOST")  
-    dsn := fmt.Sprintf("%s:%s@unix(%s)/%s", dbUser, dbPass, dbSocketDir, dbName)
+    dsn := fmt.Sprintf("%s:%s@unix(%s)/%s?parseTime=true", dbUser, dbPass, dbSocketDir, dbName)
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
