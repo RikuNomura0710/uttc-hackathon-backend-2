@@ -48,6 +48,8 @@ type Post struct {
 	AuthorID        string           `json:"authorId"`
 	// Tags            string           `gorm:"type:text" json:"tags"`
 	Category        string           `json:"category"`
+	Tech 		    string           `json:"tech"`
+	Curriculum 	    string           `json:"curriculum"`
 	Content         string           `json:"content"`
 	CoverURL        string           `json:"coverUrl"`
 	MetaTitle       string           `json:"metaTitle"`
