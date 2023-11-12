@@ -84,50 +84,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("AutoMigrate failed: %v", err)
 	}
-	// Define two new Post records
-	post1 := Post{
-		Title:         "10 Essential Tips for Healthy Living",
-		// Tags:         "tag1",
-		Category:      "技術ブログ",
-		Content:       "Content of the post",
-		CoverURL:      "https://example.com/cover1.jpg",
-		MetaTitle:     "Meta Title 1",
-		TotalViews:    1000,
-		TotalShares:   100,
-		Description:   "Description of post 1",
-		TotalComments: 10,
-		TotalFavorites: 50,
-		// MetaKeywords:  "keyword1, keyword2",
-		Author:        Author{Name: "Author 1", AvatarURL: "https://example.com/avatar1.jpg"},
-	}
-
-	post2 := Post{ 
-		Title:         "5 Ways to Stay Active",
-		// Tags:          "tag2",
-		Category:      "技術書",
-		Content:       "Content of the post",
-		CoverURL:      "https://example.com/cover2.jpg",
-		MetaTitle:     "Meta Title 2",
-		TotalViews:    1500,
-		TotalShares:   150,
-		Description:   "Description of post 2",
-		TotalComments: 15,
-		TotalFavorites: 75,
-		// MetaKeywords:  "keyword3, keyword4",
-		Author:        Author{Name: "Author 2", AvatarURL: "https://example.com/avatar2.jpg"},
-	}
-
-	// Insert the Post records into the database
-	err = db.Create(&post1).Error
-	if err != nil {
-		log.Printf("Failed to create post1: %v", err)
-	}
-
-	err = db.Create(&post2).Error
-	if err != nil {
-		log.Printf("Failed to create post2: %v", err)
-	}
-
+	
 
 	//READ CRUD create read update delete
 
@@ -261,6 +218,20 @@ func main() {
 			return
 		}
 		c.JSON(200, gin.H{"message": "Post created successfully!", "post": newPost})
+	})
+
+	r.GET("/search", func(c *gin.Context) {
+		var posts []Post
+		query := c.Query("query") // クエリパラメータ 'query' を取得
+
+		// タイトル、内容、または説明にクエリが含まれる投稿を検索
+		result := db.Where("title LIKE ? OR content LIKE ? OR description LIKE ?", "%"+query+"%", "%"+query+"%", "%"+query+"%").Find(&posts)
+		if result.Error != nil {
+			c.JSON(500, gin.H{"error": result.Error.Error()})
+			return
+		}
+
+		c.JSON(200, gin.H{"results": posts})
 	})
 
 	r.PUT("/edit/:id", func(c *gin.Context) {
